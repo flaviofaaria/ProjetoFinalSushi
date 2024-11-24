@@ -1,13 +1,3 @@
-SELECT * FROM tb_usuario;
-SELECT * FROM tb_categoria;
-SELECT * FROM tb_itens;
-
-
-TRUNCATE TABLE tb_usuario;
-TRUNCATE TABLE tb_usuario;
-TRUNCATE TABLE tb_itens;
-TRUNCATE TABLE tb_itens_pedido;
-
 INSERT INTO tb_categoria (nome) VALUES
 ('Entradas'),
 ('Pratos Principais'),
