@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .popup.show {
+            display: block;
+        }
+
+      
+        #popupError {
+            background-color: #f44336; 
+        }
+
+        
+        #popupSuccess {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+	<div class="container">
+		<div class="img">
+			<img src="img/bg.svg" style="width: 50%; height: auto;">
+		</div>
+		<div class="login-content">
+			<form id="formLogin">
+				<img src="img/avatar.svg">
+				<h2 class="title">Bem-vindo</h2>
+				<div class="input-div one">
+					<div class="i"><i class="fas fa-user"></i></div>
+					<div class="div">
+						<h5>Email</h5>
+						<input type="text" class="input" name="email" required>
+					</div>
+				</div>
+				<div class="input-div pass">
+					<div class="i"><i class="fas fa-lock"></i></div>
+					<div class="div">
+						<h5>Senha</h5>
+						<input type="password" class="input" name="senha" required>
+					</div>
+				</div>
+				<a class="a1" href="esqueceu.html">Esqueceu a senha?</a>
+				<input type="submit" class="btn" value="Login">
+				<a href="cadastro.html">Cadastre-se</a>
+			</form>
+		</div>
+		
+		<div class="popup" id="popupSuccess">Login realizado com sucesso!</div>
+		<div class="popup" id="popupError">E-mail ou senha incorretos!</div>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script>
+			document.getElementById('formLogin').addEventListener('submit', function(event) {
+				event.preventDefault();
+		
+				const formData = new FormData(this);
+		
+				
+				document.getElementById('popupSuccess').classList.remove('show');
+				document.getElementById('popupError').classList.remove('show');
+		
+				fetch('login.php', {
+					method: 'POST',
+					body: formData
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.status === 'success') {
+						document.getElementById('popupSuccess').classList.add('show');
+						setTimeout(() => {
+							window.location.href = 'cardapio.php';
+						}, 2000);
+					} else if (data.status === 'error') {
+						document.getElementById('popupError').classList.add('show');
+						setTimeout(() => {
+							document.getElementById('popupError').classList.remove('show');
+						}, 2000);
+					}
+				})
+				.catch(error => {
+					console.error('Erro:', error);
+					alert('Erro ao realizar login!');
+				});
+			});
+		</script>		
+</body>
+</html>
